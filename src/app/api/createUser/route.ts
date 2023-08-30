@@ -27,6 +27,7 @@ export async function POST(req: Request) {
     // Return a successful response.
     return NextResponse.json({ message: 'User created successfully' });
   } catch (error) {
-    return NextResponse.json({ message: 'Internal server error' });
+    console.log(error);
+    return NextResponse.json({ message: 'Internal server error'});
   }
 }
