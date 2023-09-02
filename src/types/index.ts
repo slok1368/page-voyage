@@ -1,6 +1,5 @@
 export interface CreateUserRequestBody {
-    username: string;
-    email: string;
-    password: string;
-  }
-
+  username: string;
+  email: string;
+  password: string;
+}

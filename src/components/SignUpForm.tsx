@@ -2,14 +2,27 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Make sure you have axios installed
 
-export default function LogInForm() {
+export default function SignUpForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Handle user log in');
+
+    try {
+      const response = await axios.post('/api/createUser', {
+        username,
+        email,
+        password,
+      });
+
+      console.log('User created:', response.data.message);
+      // You can also navigate to a new page or show a success message
+    } catch (error) {
+      console.error('Error creating user:', error.response.data.error);
+      // Handle the error, show an error message, etc.
+    }
   };
 
   return (
@@ -27,6 +40,15 @@ export default function LogInForm() {
         />
       </div>
       <div className='flex flex-col py-3'>
+        <label className=''>Email: </label>
+        <input
+          className='rounded-md border border-slate-400 px-2'
+          type='email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className='flex flex-col py-3'>
         <label>Password: </label>
         <input
           className='rounded-md border border-slate-400 px-2'
@@ -39,7 +61,7 @@ export default function LogInForm() {
         className='mt-6 w-full rounded-lg bg-red-400 p-2 shadow-md'
         type='submit'
       >
-        Log In
+        Sign Up
       </button>
 
       <div className='flex w-full flex-row justify-between'>
@@ -71,7 +93,7 @@ export default function LogInForm() {
             ></path>
           </svg>
         </div>
-        Log In with Google
+        Sign in with Google
       </button>
     </form>
   );

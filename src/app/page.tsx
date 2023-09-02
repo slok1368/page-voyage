@@ -1,12 +1,9 @@
-import LoginForm from "@/components/LoginForm";
+import NavigationBar from '@/components/NavigationBar';
 
-LoginForm
 export default function Home() {
   return (
-    <div>
-      <h1>Log in please</h1>
-      <LoginForm />
-    </div>
-  
-    );
+    <main className='flex h-screen flex-col'>
+      <NavigationBar />
+    </main>
+  );
 }
