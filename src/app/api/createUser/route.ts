@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { CreateUserRequestBody } from '@/types';
 import { pool } from '@/app/api/_db';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { username, email, password }: CreateUserRequestBody =
       await req.json();

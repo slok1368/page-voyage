@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.405.0",
+    "@aws-sdk/credential-provider-ini": "^3.405.0",
+    "@aws-sdk/s3-presigned-post": "^3.405.0",
+    "@aws-sdk/s3-request-presigner": "^3.405.0",
     "@types/node": "20.5.7",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
+    "aws-sdk": "^2.1450.0",
     "axios": "^1.5.0",
     "bcrypt": "^5.1.1",
     "eslint": "8.48.0",

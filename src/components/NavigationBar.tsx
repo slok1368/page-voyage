@@ -1,87 +1,64 @@
 'use client';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Navigationbar() {
-  const [searchText, setSearchText] = useState('');
   const rounter = useRouter();
-  console.log('Navigation rerendered');
+
   return (
-    <div className='absolute top-0 flex w-full justify-center bg-slate-100'>
+    <header className='flex w-full justify-center bg-slate-100'>
       <div className='flex w-4/5 flex-row justify-between'>
-        <div className='flex flex-row justify-start'>
-          <button
+        <section className='flex flex-row justify-start'>
+          <Link
             className='m-3 rounded-lg border-4 border-slate-100 px-4 py-2
                          hover:bg-slate-200'
-            onClick={() => {
-              console.log('to home');
-              rounter.push('/');
-            }}
+            href='/'
           >
             Home
-          </button>
+          </Link>
 
-          <button
+          <Link
             className='m-3 rounded-lg border-4 border-slate-100 px-4 py-2
                          hover:bg-slate-200'
-            onClick={() => {
-              rounter.push('/MyBooks');
-            }}
+            href='/MyBooks'
           >
             My Books
-          </button>
+          </Link>
 
-          <button
+          <Link
             className='m-3 rounded-lg border-4 border-slate-100 px-4 py-2
                          hover:bg-slate-200'
-            onClick={() => {
-              rounter.push('/Explore');
-            }}
+            href='/Explore'
           >
             Explore
-          </button>
+          </Link>
 
-          <button
+          <Link
             className='m-3 rounded-lg border-4 border-slate-100 px-4 py-2
                          hover:bg-slate-200'
-            onClick={() => {
-              rounter.push('/BookEditor');
-            }}
+            href='/BookEditor'
           >
             Create Book
-          </button>
-        </div>
-        <div className='flex flex-row justify-between '>
-          <form className='mt-2'>
-            <input
-              placeholder='Search'
-              value={searchText}
-              onChange={(e) => {
-                setSearchText(e.target.value);
-              }}
-              className='m-5  rounded-lg border-2 border-slate-200 px-2'
-            />
-          </form>
-          <button
+          </Link>
+        </section>
+
+        <section className='flex flex-row justify-between '>
+          <Link
             className='m-3 rounded-lg border-2 border-slate-300 px-4 py-2
-                         hover:bg-slate-300'
-            onClick={() => {
-              rounter.push('/LogIn');
-            }}
+                        hover:bg-slate-300'
+            href='/LogIn'
           >
             Log In
-          </button>
-          <button
+          </Link>
+          <Link
             className='m-3 rounded-lg border-4 border-slate-200 bg-slate-200 px-4 py-2
-                         hover:border-slate-300 hover:bg-slate-300'
-            onClick={() => {
-              rounter.push('/SignUp');
-            }}
+                        hover:border-slate-300 hover:bg-slate-300'
+            href='/SignUp'
           >
             Sign Up
-          </button>
-        </div>
+          </Link>
+        </section>
       </div>
-    </div>
+    </header>
   );
 }
