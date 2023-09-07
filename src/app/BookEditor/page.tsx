@@ -29,7 +29,7 @@ export default function BookEditor() {
     }
   }
 
-  function handleNameOnChange(event) {
+  function handleNameOnChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
   }
 

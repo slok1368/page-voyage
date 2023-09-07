@@ -20,7 +20,7 @@ export default function SignUpForm() {
       console.log('User created:', response.data.message);
       // You can also navigate to a new page or show a success message
     } catch (error) {
-      console.error('Error creating user:', error.response.data.error);
+      console.error('Error creating user');
       // Handle the error, show an error message, etc.
     }
   };
