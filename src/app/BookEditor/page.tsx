@@ -9,8 +9,9 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 export default function BookEditor() {
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
-
+  console.log('In Book editor');
   async function saveOnClick() {
+    console.log('Saving book..');
     try {
       const saveBookRequest: CreateBookRequestBody = {
         author_id: '550e8400-e29b-41d4-a716-446655440000',
@@ -22,7 +23,7 @@ export default function BookEditor() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(saveBookRequest),
       };
-      await fetch(process.env.APP_URL + '/api/books', requestOption);
+      await fetch('/api/books', requestOption);
       console.log('Book created:', name);
     } catch (error) {
       console.log();
