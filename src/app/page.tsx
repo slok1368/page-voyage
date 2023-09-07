@@ -8,6 +8,7 @@ export default function Home() {
 
     <main className='z-10 w-full'>
       <h1>Home page</h1>
+      <h1>{process.env.ENV_TEST}</h1>
     </main>
   );
 }
