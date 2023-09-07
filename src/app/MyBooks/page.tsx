@@ -6,7 +6,6 @@ type bookCard = {
 };
 
 export default async function MyBooks() {
-  console.log('In My Books, fetching for my books!');
   const res = await fetch(process.env.APP_URL + '/api/books/', {
     method: 'GET',
     cache: 'no-store',

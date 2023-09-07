@@ -15,7 +15,6 @@ export async function GET(
 
     const book = bookRes.rows[0];
 
-    console.log(book);
     return NextResponse.json(book);
   } catch (error) {
     return NextResponse.json({
