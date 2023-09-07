@@ -1,25 +1,21 @@
 import Link from 'next/link';
 
+type bookCard = {
+  book_id: string;
+  book_name: string;
+};
+
 export default async function MyBooks() {
-  //console.log('called books API');
-  let html = 'No books';
-  try {
-    const res = await fetch('http://localhost:3000/api/books/', {
-      method: 'GET',
-    });
+  console.log('In My Books, fetching for my books!');
+  const res = await fetch(process.env.APP_URL + '/api/books/', {
+    method: 'GET',
+    cache: 'no-store',
+  });
 
-    const data = await res.json();
-    console.log(data);
-    if (data) {
-      html = data;
-    }
-  } catch {
-    console.log('Failed to get books');
-  }
-
+  const data: bookCard[] = await res.json();
   return (
     <main>
-      <div className='flex  flex-row items-baseline justify-between'>
+      <div className='flex flex-row items-baseline justify-between'>
         <h1>My Books</h1>
         <Link
           href='/BookEditor'
@@ -28,7 +24,19 @@ export default async function MyBooks() {
           Add a book
         </Link>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+      <div className='flex flex-col items-start gap-4'>
+        {data.map((item: bookCard, index: number) => {
+          return (
+            <Link
+              key={index}
+              href={`/MyBooks/${item.book_id}`}
+              className='w-full rounded-lg border-4 bg-slate-200 p-3'
+            >
+              Book {index + 1}: {item.book_name}
+            </Link>
+          );
+        })}
+      </div>
     </main>
   );
 }

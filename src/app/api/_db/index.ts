@@ -9,7 +9,6 @@ export const pool = new pg.Pool({
   ssl:
     process.env.DB_HOST !== 'localhost'
       ? {
-          //ca: require('fs').readFileSync('@/../ssl-certs/us-east-1-bundle.pem'),
           rejectUnauthorized: true, // Set to true to enforce SSL verification
         }
       : undefined,

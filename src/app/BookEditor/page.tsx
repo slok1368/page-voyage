@@ -22,7 +22,7 @@ export default function BookEditor() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(saveBookRequest),
       };
-      await fetch('/api/books', requestOption);
+      await fetch(process.env.APP_URL + '/api/books', requestOption);
       console.log('Book created:', name);
     } catch (error) {
       console.log();

@@ -6,9 +6,9 @@ export default function Navigationbar() {
   const rounter = useRouter();
 
   return (
-    <header className='flex w-full justify-center bg-slate-100'>
-      <div className='flex w-4/5 flex-row justify-between'>
-        <section className='flex flex-row justify-start'>
+    <header className='flex w-screen justify-center bg-slate-100'>
+      <div className='flex w-4/5 flex-row flex-wrap justify-between'>
+        <section className='flex flex-row flex-wrap justify-start'>
           <Link
             className='m-3 rounded-lg border-4 border-slate-100 px-4 py-2
                          hover:bg-slate-200'

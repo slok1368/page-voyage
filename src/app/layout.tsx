@@ -16,9 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`${inter.className} items-top flex h-screen flex-col`}>
+      <body
+        className={`${inter.className} items-top flex w-screen flex-col pb-10`}
+      >
         <NavigationBar />
-        <div className='mx-auto w-8/12'>{children}</div>
+        <div className='mx-auto w-11/12 sm:w-8/12'>{children}</div>
       </body>
     </html>
   );

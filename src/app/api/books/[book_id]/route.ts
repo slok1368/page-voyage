@@ -1,20 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// export async function GET(
-//   req: NextRequest,
-//   { params }: { params: { id: string } }
-// ) {
-//   console.log('id');
-//   return NextResponse.json({ success: true, message: 'id is:' + params.id });
-// }
+import { pool } from '@/app/api/_db';
 
 export async function GET(
   request: Request,
   { params }: { params: { book_id: string } }
 ) {
-  const slug = params.book_id; // 'a', 'b', or 'c'
-  console.log('calling indivigual book');
-  return NextResponse.json({
-    success: true,
-  });
+  const bookId = params.book_id;
+
+  try {
+    const bookRes = await pool.query(
+      'SELECT book_name, book_content FROM books where book_id = $1',
+      [bookId]
+    );
+
+    const book = bookRes.rows[0];
+
+    console.log(book);
+    return NextResponse.json(book);
+  } catch (error) {
+    return NextResponse.json({
+      message:
+        'Internal server error when getting book with book_id: ' + bookId,
+    });
+  }
 }

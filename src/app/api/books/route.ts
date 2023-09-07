@@ -95,6 +95,7 @@ export async function GET(req: NextRequest) {
       bookIds
     );
 
+    console.log('Got books, ' + books.rows);
     return NextResponse.json(books.rows);
   } catch (error) {
     return NextResponse.json({
