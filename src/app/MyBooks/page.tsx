@@ -2,12 +2,21 @@ import Link from 'next/link';
 
 export default async function MyBooks() {
   //console.log('called books API');
-  const res = await fetch('http://localhost:3000/api/books/', {
-    method: 'GET',
-  });
+  let html = 'No books';
+  try {
+    const res = await fetch('http://localhost:3000/api/books/', {
+      method: 'GET',
+    });
 
-  const data = await res.json();
-  console.log(data);
+    const data = await res.json();
+    console.log(data);
+    if (data) {
+      html = data;
+    }
+  } catch {
+    console.log('Failed to get books');
+  }
+
   return (
     <main>
       <div className='flex  flex-row items-baseline justify-between'>
@@ -19,7 +28,7 @@ export default async function MyBooks() {
           Add a book
         </Link>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: data }} />
+      <div dangerouslySetInnerHTML={{ __html: html }} />
     </main>
   );
 }
