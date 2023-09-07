@@ -97,6 +97,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(books.rows);
   } catch (error) {
-    return NextResponse.json({ message: 'Internal server error' });
+    return NextResponse.json({
+      message: 'Internal server error when getting books',
+    });
   }
 }
