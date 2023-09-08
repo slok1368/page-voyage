@@ -9,7 +9,7 @@ export default function LogInForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Handle user log in');
+    console.log('TODO: Handle user log in');
   };
 
   return (

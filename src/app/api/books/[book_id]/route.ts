@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { pool } from '@/app/api/_db';
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { book_id: string } }
 ) {
   const bookId = params.book_id;
@@ -15,11 +15,11 @@ export async function GET(
 
     const book = bookRes.rows[0];
 
-    return NextResponse.json(book);
+    return NextResponse.json({ success: true, content: book });
   } catch (error) {
-    return NextResponse.json({
-      message:
-        'Internal server error when getting book with book_id: ' + bookId,
-    });
+    console.log(
+      'Internal server error when getting book with book_id: ' + bookId
+    );
+    return NextResponse.error();
   }
 }

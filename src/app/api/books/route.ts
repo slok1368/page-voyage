@@ -2,23 +2,32 @@ import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateBookRequestBody } from '@/types';
 import { pool } from '@/app/api/_db';
+import { bookCard } from '@/types';
+
+async function checkUserID(id: string) {
+  try {
+    const checkResult = await pool.query(
+      'SELECT EXISTS(SELECT 1 FROM users WHERE user_id = $1)',
+      [id]
+    );
+
+    return checkResult.rows[0].exists;
+  } catch (error) {
+    return false;
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
     const { author_id, book_name, book_content }: CreateBookRequestBody =
       await req.json();
-    console.log(req.body);
 
-    // Generate a UUID for the new user.
+    const userExists = await checkUserID(author_id);
+
+    if (!userExists) {
+      return NextResponse.error();
+    }
     const book_id = uuidv4();
-    console.log(
-      'USer id, name, book id',
-      author_id,
-      ' ',
-      book_name,
-      ' ',
-      book_id
-    );
     await pool.query(
       'INSERT INTO books(book_id, author_id, book_name, book_content) VALUES ($1, $2, $3, $4)',
       [book_id, author_id, book_name, book_content]
@@ -43,40 +52,41 @@ export async function POST(req: NextRequest) {
       currentdate.getSeconds();
     console.log('Added book: ' + book_name + ' :at ' + datetime);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, content: book_id });
   } catch (error) {
-    return NextResponse.json({ success: false });
+    return NextResponse.error();
   }
 }
 
 export async function GET(req: NextRequest) {
   try {
     const user_id = '550e8400-e29b-41d4-a716-446655440000';
-
     const bookIdsRes = await pool.query(
       'SELECT books FROM users where user_id = $1',
       [user_id]
     );
 
     const bookIds = bookIdsRes.rows[0].books;
+    let books: bookCard[] = [];
 
-    let params = bookIds.map((item: string, idx: number) => {
-      return '$' + (idx + 1);
-    });
+    if (bookIds.length > 0) {
+      let params = bookIds.map((item: string, idx: number) => {
+        return '$' + (idx + 1);
+      });
 
-    const books = await pool.query(
-      `SELECT book_id, book_name
+      const booksRes = await pool.query(
+        `SELECT book_id, book_name
         FROM books
         WHERE book_id IN (` +
-        params.join(',') +
-        `)`,
-      bookIds
-    );
+          params.join(',') +
+          `)`,
+        bookIds
+      );
 
-    return NextResponse.json(books.rows);
+      books = booksRes.rows;
+    }
+    return NextResponse.json({ success: true, content: books });
   } catch (error) {
-    return NextResponse.json({
-      message: 'Internal server error when getting books',
-    });
+    return NextResponse.error();
   }
 }

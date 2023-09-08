@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import axios from 'axios'; // Make sure you have axios installed
+import { toast } from 'react-toastify';
 
 export default function SignUpForm() {
   const [username, setUsername] = useState('');
@@ -19,9 +20,15 @@ export default function SignUpForm() {
 
       console.log('User created:', response.data.message);
       // You can also navigate to a new page or show a success message
+      toast.success('Signed Up as ' + username, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     } catch (error) {
       console.error('Error creating user');
       // Handle the error, show an error message, etc.
+      toast.error('Error creating user', {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 
