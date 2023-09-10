@@ -49,11 +49,16 @@ export default async function MyBooks() {
       <div className='flex flex-col items-start gap-4'>
         {books && books.length > 0 ? (
           books.map((item: bookCard, index: number) => {
+            // Check if item is undefined, and skip it if it is
+            if (!item) {
+              return null; // Skip this iteration
+            }
+
             return (
               <Link
                 key={index}
                 href={`/MyBooks/${item.book_id}`}
-                className='w-full rounded-lg  bg-slate-400 p-3 text-black'
+                className='w-full rounded-lg bg-slate-400 p-3 text-black'
               >
                 Book {index + 1}: {item.book_name}
               </Link>

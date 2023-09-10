@@ -7,7 +7,7 @@ export default async function Page({
   params: { book_id: string };
 }) {
   const book_id = params.book_id;
-  let bookName = '';
+  let bookName = 'Error getting this book';
   let bookContent = '<p>This book does not exist</p>';
 
   const res = await fetch(process.env.APP_URL + '/api/books/' + book_id, {
