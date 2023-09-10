@@ -53,15 +53,16 @@ export default function BookEditor() {
       <h1>Book Editor</h1>
       <input
         maxLength={100}
-        className='mb-5 w-full rounded-xl border px-4 py-5 text-3xl'
+        className='mb-5 w-full rounded-xl border px-4 py-5 text-3xl text-black'
         value={name}
         onChange={handleNameOnChange}
+        placeholder='Title...'
       />
       {ReactQuill && (
         <ReactQuill
           theme='snow'
           value={content}
-          className='min-h-[260px] w-full'
+          className='w-full'
           onChange={setContent}
         />
       )}
@@ -71,7 +72,7 @@ export default function BookEditor() {
       >
         Save
       </button>
-      <button onClick={notify}>Notify !</button>;
+      <button onClick={notify}>Notify !</button>
     </div>
   );
 }

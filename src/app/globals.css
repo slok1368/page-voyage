@@ -4,12 +4,16 @@
 
 @layer base {
   html {
-    @apply text-xs md:text-base;
+    @apply h-screen bg-gradient-to-b from-neutral-800 via-neutral-700 via-80% to-neutral-600  text-xs text-white md:text-base; /*bg-neutral-800 */
   }
   h1 {
     @apply my-10 text-2xl  md:text-4xl;
   }
   h2 {
     @apply text-xl  md:text-3xl;
+  }
+
+  .nav-button {
+    @apply m-3 rounded-full border-2 border-slate-600 px-4 py-3 hover:scale-105;
   }
 }

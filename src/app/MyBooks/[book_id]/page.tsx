@@ -1,4 +1,5 @@
-import { bookFullContentJson, bookFullContent } from '@/types';
+import RemoveBookButton from '@/components/RemoveBookButton';
+import { bookFullContentJson } from '@/types';
 
 export default async function Page({
   params,
@@ -21,9 +22,20 @@ export default async function Page({
 
   return (
     <div>
-      <h1>{bookName}</h1>
-      <p>My Book ID: {params.book_id}</p>
-      <div dangerouslySetInnerHTML={{ __html: bookContent }} />
+      <div className='flex items-center justify-between'>
+        <h1>{bookName}</h1>
+        <section className='flex h-fit justify-between gap-4'>
+          <button className='rounded-lg bg-blue-300 px-3 py-2 text-black'>
+            Edit
+          </button>
+          <RemoveBookButton bookId={book_id} />
+        </section>
+      </div>
+
+      <div
+        className='rounded-lg bg-gray-700 p-5'
+        dangerouslySetInnerHTML={{ __html: bookContent }}
+      />
     </div>
   );
 }
