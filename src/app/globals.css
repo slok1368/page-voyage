@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply h-screen bg-gradient-to-b from-neutral-800 via-neutral-700 via-80% to-neutral-600  text-xs text-white md:text-base; /*bg-neutral-800 */
+    @apply min-h-screen bg-gradient-to-b from-neutral-800 via-neutral-700 via-80% to-neutral-600  text-xs text-white md:text-base;
   }
   h1 {
     @apply my-10 text-2xl  md:text-4xl;

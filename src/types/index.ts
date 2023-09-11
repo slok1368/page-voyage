@@ -5,7 +5,6 @@ export type CreateUserRequestBody = {
 };
 
 export type CreateBookRequestBody = {
-  author_id: string;
   book_name: string;
   book_content: string;
 };

@@ -15,7 +15,6 @@ export default function BookEditor() {
 
   async function saveOnClick() {
     const saveBookRequest: CreateBookRequestBody = {
-      author_id: '550e8400-e29b-41d4-a716-446655440000',
       book_name: name,
       book_content: content,
     };

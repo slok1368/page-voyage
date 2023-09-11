@@ -3,28 +3,30 @@ import { v4 as uuidv4 } from 'uuid';
 import { CreateBookRequestBody } from '@/types';
 import { pool } from '@/app/api/_db';
 import { bookCard } from '@/types';
+import { authOptions } from '../auth/[...nextauth]/route';
+import { getServerSession } from 'next-auth';
 
-async function checkUserID(id: string) {
-  try {
-    const checkResult = await pool.query(
-      'SELECT EXISTS(SELECT 1 FROM users WHERE user_id = $1)',
-      [id]
-    );
+// async function checkUserID(id: string) {
+//   try {
+//     const checkResult = await pool.query(
+//       'SELECT EXISTS(SELECT 1 FROM users WHERE user_id = $1)',
+//       [id]
+//     );
 
-    return checkResult.rows[0].exists;
-  } catch (error) {
-    return false;
-  }
-}
+//     return checkResult.rows[0].exists;
+//   } catch (error) {
+//     return false;
+//   }
+// }
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
   try {
-    const { author_id, book_name, book_content }: CreateBookRequestBody =
-      await req.json();
+    const { book_name, book_content }: CreateBookRequestBody = await req.json();
+    const author_id = session?.user.id;
+    //const userExists = await checkUserID(author_id);
 
-    const userExists = await checkUserID(author_id);
-
-    if (!userExists) {
+    if (!author_id) {
       return NextResponse.error();
     }
     const book_id = uuidv4();
@@ -59,8 +61,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
   try {
-    const user_id = '550e8400-e29b-41d4-a716-446655440000';
+    const user_id = session?.user.id;
     const bookIdsRes = await pool.query(
       'SELECT books FROM users where user_id = $1',
       [user_id]

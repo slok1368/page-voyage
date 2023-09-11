@@ -1,17 +1,12 @@
-'use client';
-import { toast } from 'react-toastify';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-export default function Home() {
-  function notify() {
-    toast.success('Success Notification !', {
-      position: toast.POSITION.BOTTOM_CENTER,
-    });
-  }
+export default async function Home() {
+  const session = await getServerSession(authOptions);
 
   return (
     <main className='z-10 w-full'>
-      <h1>Home page</h1>
-      <button onClick={notify}>Notify !</button>
+      <h1>Page Voyage</h1>
     </main>
   );
 }
