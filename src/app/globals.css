@@ -17,3 +17,21 @@
     @apply m-3 rounded-full border-2 border-slate-600 px-4 py-3 hover:scale-105;
   }
 }
+
+.ql-toolbar .ql-stroke {
+  fill: none !important;
+  stroke: #fff !important;
+}
+
+.ql-toolbar .ql-fill {
+  fill: #fff !important;
+  stroke: none !important;
+}
+
+.ql-toolbar .ql-picker {
+  color: #000000 !important;
+}
+
+.ql-picker-label::before {
+  color: #fff !important;
+}

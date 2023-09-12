@@ -64,7 +64,7 @@ export default async function MyBooks() {
   }
 
   return (
-    <main>
+    <main className='mx-auto w-11/12 sm:w-8/12'>
       <div className='flex flex-row items-baseline justify-between'>
         <h1>My Books</h1>
         <Link

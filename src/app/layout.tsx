@@ -27,7 +27,7 @@ export default async function RootLayout({
       >
         <Provider session={session}>
           <NavigationBar />
-          <div className='mx-auto w-11/12 sm:w-8/12'>{children}</div>
+          <div className='w-screen'>{children}</div>
           <ToastContainer />
         </Provider>
       </body>

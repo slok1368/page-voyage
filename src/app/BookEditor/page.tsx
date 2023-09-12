@@ -7,6 +7,19 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const toolbarModule = {
+  toolbar: [
+    [{ header: [2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' },
+    ],
+    ['clean'],
+  ],
+};
 
 export default function BookEditor() {
   const router = useRouter();
@@ -48,7 +61,7 @@ export default function BookEditor() {
   }
 
   return (
-    <div className='flex  flex-col items-center justify-center'>
+    <div className='mx-auto  flex w-11/12 flex-col items-center justify-center sm:w-8/12'>
       <h1>Book Editor</h1>
       <input
         maxLength={100}
@@ -63,6 +76,7 @@ export default function BookEditor() {
           value={content}
           className='w-full'
           onChange={setContent}
+          modules={toolbarModule}
         />
       )}
       <button

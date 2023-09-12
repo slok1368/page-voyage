@@ -1,4 +1,5 @@
 import RemoveBookButton from '@/components/RemoveBookButton';
+import SppechSynthesisComponent from '@/components/SpeechSynthesisComponent';
 import { bookFullContentJson } from '@/types';
 
 export default async function Page({
@@ -9,7 +10,6 @@ export default async function Page({
   const book_id = params.book_id;
   let bookName = 'Error getting this book';
   let bookContent = '<p>This book does not exist</p>';
-
   const res = await fetch(process.env.APP_URL + '/api/books/' + book_id, {
     method: 'GET',
   });
@@ -21,7 +21,7 @@ export default async function Page({
   }
 
   return (
-    <div>
+    <div className='mx-auto w-11/12 sm:w-8/12'>
       <div className='flex items-center justify-between'>
         <h1>{bookName}</h1>
         <section className='flex h-fit justify-between gap-4'>
@@ -31,9 +31,12 @@ export default async function Page({
           <RemoveBookButton bookId={book_id} />
         </section>
       </div>
-
+      <SppechSynthesisComponent
+        book_name={bookName}
+        book_content={bookContent}
+      />
       <div
-        className='rounded-lg bg-gray-700 p-5'
+        className='mt-3 rounded-lg bg-gray-700 p-5'
         dangerouslySetInnerHTML={{ __html: bookContent }}
       />
     </div>
