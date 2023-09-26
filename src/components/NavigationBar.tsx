@@ -15,23 +15,28 @@ export default function Navigationbar() {
             Home
           </Link>
 
-          <button
-            onClick={() => {
-              router.refresh();
-              router.replace('/MyBooks');
-            }}
-            className='nav-button'
-          >
-            MyBooks
-          </button>
-
-          <Link className='nav-button' href='/Explore'>
+          {/* TODO: Create explore page */}
+          {/* <Link className='nav-button' href='/Explore'>
             Explore
-          </Link>
+          </Link> */}
 
-          <Link className='nav-button' href='/BookEditor'>
-            Create Book
-          </Link>
+          {session ? (
+            <div>
+              <button
+                onClick={() => {
+                  router.refresh();
+                  router.replace('/MyBooks');
+                }}
+                className='nav-button'
+              >
+                My Books
+              </button>
+
+              <Link className='nav-button' href='/BookEditor'>
+                Create a Book
+              </Link>
+            </div>
+          ) : undefined}
         </section>
 
         <section className='flex h-auto flex-row flex-wrap items-center'>

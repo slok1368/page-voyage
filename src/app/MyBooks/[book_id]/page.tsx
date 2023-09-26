@@ -25,9 +25,10 @@ export default async function Page({
       <div className='flex items-center justify-between'>
         <h1>{bookName}</h1>
         <section className='flex h-fit justify-between gap-4'>
-          <button className='rounded-lg bg-blue-300 px-3 py-2 text-black'>
+          {/* TODO: Add edit button */}
+          {/* <button className='rounded-lg bg-blue-300 px-3 py-2 text-black'>
             Edit
-          </button>
+          </button> */}
           <RemoveBookButton bookId={book_id} />
         </section>
       </div>
