@@ -1,10 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import axios from 'axios'; // Make sure you have axios installed
 import { toast } from 'react-toastify';
 import { GoogleSignIn } from './SignInProvider';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 export default function SignUpForm() {
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,25 +14,49 @@ export default function SignUpForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post('/api/createUser', {
+    await fetch(`/api/createUser`, {
+      method: 'POST',
+      body: JSON.stringify({
         username,
         email,
         password,
-      });
+      }),
+    }).then((res) => {
+      console.log(res.status);
+      if (res.status === 200) {
+        toast.success(`Signed Up as ${username}`, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
 
-      console.log('User created:', response.data.message);
-      // You can also navigate to a new page or show a success message
-      toast.success('Signed Up as ' + username, {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-    } catch (error) {
-      console.error('Error creating user');
-      // Handle the error, show an error message, etc.
-      toast.error('Error creating user', {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-    }
+        // Sign in the user.
+        signIn('credentials', {
+          redirect: false,
+          email,
+          password,
+        }).then((res) => {
+          if (res?.error === null) {
+            toast.success('Log in successfully', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            router.push('/');
+          } else {
+            toast.error('Failed to Log in', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          }
+        });
+
+        router.push('/MyBooks');
+      } else if (res.status === 400) {
+        toast.error('Email already has an account', {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      } else {
+        toast.error('Failed to Sign Up', {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      }
+    });
   };
 
   return (

@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { convert } from 'html-to-text';
 import { usePathname } from 'next/navigation';
 export default function SppechSynthesisComponent({
-  book_name,
-  book_content,
+  bookName,
+  bookContent,
 }: bookFullContent) {
   const pathName = usePathname();
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
@@ -13,7 +13,7 @@ export default function SppechSynthesisComponent({
     useState<SpeechSynthesisVoice | null>(null);
   const [speaking, setSpeaking] = useState(false);
 
-  const bookContent = convert(book_content);
+  const bookContentText = convert(bookContent);
   useEffect(() => {
     const synth = window.speechSynthesis;
     const populateVoiceList = () => {
@@ -39,17 +39,36 @@ export default function SppechSynthesisComponent({
     );
   };
 
+  // const handleSpeak = () => {
+  //   console.log(selectedVoice);
+  //   if (selectedVoice) {
+  //     const synth = window.speechSynthesis;
+  //     const utterThis = new SpeechSynthesisUtterance(
+  //       book_name + '. ' + bookContentText
+  //     );
+  //     utterThis.voice = selectedVoice;
+  //     synth.speak(utterThis);
+  //     setSpeaking(true);
+  //   }
+  // };
   const handleSpeak = () => {
-    console.log(selectedVoice);
-    if (selectedVoice) {
-      const synth = window.speechSynthesis;
-      const utterThis = new SpeechSynthesisUtterance(
-        book_name + '. ' + bookContent
-      );
-      utterThis.voice = selectedVoice;
-      synth.speak(utterThis);
-      setSpeaking(true);
+    const synth = window.speechSynthesis;
+
+    // Create an array of texts and voices
+    const textsAndVoices = [
+      { text: 'First sentence.', voice: voices[0] },
+      { text: 'Second sentence.', voice: voices[1] },
+      // Add more as needed
+    ];
+
+    // For each text and voice, create an utterance and speak it
+    for (const { text, voice } of textsAndVoices) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.voice = voice;
+      synth.speak(utterance);
     }
+
+    setSpeaking(true);
   };
 
   const handleStop = () => {

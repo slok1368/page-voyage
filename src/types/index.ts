@@ -5,8 +5,8 @@ export type CreateUserRequestBody = {
 };
 
 export type CreateBookRequestBody = {
-  book_name: string;
-  book_content: string;
+  bookName: string;
+  bookContent: string;
 };
 
 export type GetBookRequestBody = {
@@ -22,13 +22,13 @@ export type apiJson = {
 };
 
 export type bookCard = {
-  book_id: string;
-  book_name: string;
+  bookId: string;
+  bookName: string;
 };
 
 export type bookFullContent = {
-  book_name: string;
-  book_content: string;
+  bookName: string;
+  bookContent: string;
 };
 
 export type bookCardsJson = apiJson & {

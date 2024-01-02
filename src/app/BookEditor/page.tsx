@@ -28,15 +28,14 @@ export default function BookEditor() {
 
   async function saveOnClick() {
     const saveBookRequest: CreateBookRequestBody = {
-      book_name: name,
-      book_content: content,
+      bookName: name,
+      bookContent: content,
     };
-    const requestOption = {
+
+    const res = await fetch('/api/books', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(saveBookRequest),
-    };
-    const res = await fetch('/api/books', requestOption);
+    });
 
     if (res.ok) {
       toast.success('Created Book', {
@@ -53,11 +52,6 @@ export default function BookEditor() {
 
   function handleNameOnChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
-  }
-  function notify() {
-    toast.success('Success Notification !', {
-      position: toast.POSITION.BOTTOM_CENTER,
-    });
   }
 
   return (
@@ -85,7 +79,6 @@ export default function BookEditor() {
       >
         Save
       </button>
-      <button onClick={notify}>Notify !</button>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react';
 export function GoogleSignIn({ text }: { text: string }) {
   return (
     <button
-      onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000' })}
+      onClick={() => signIn('google', { callbackUrl: '/' })}
       type='button'
       className=' mb-2 flex w-auto flex-row  justify-center rounded-xl border border-slate-300 py-2.5 pl-12 pr-16 text-black shadow-md  hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg'
     >

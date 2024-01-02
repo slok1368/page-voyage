@@ -1,36 +1,35 @@
 import NextAuth from 'next-auth';
 import type { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { pool } from '../../_db';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import GoogleProvider from 'next-auth/providers/google';
 import { v4 as uuidv4 } from 'uuid';
 
+const prisma = new PrismaClient();
+
 async function authenticate(email: string, clientPassword: string) {
   try {
     // Retrieve user data from the database using the provided email
-    const result = await pool.query(
-      'SELECT username, user_id, password FROM users WHERE email = $1',
-      [email]
-    );
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: { id: true, username: true, password: true },
+    });
 
     // Check if a user with the provided email exists
-    if (result.rows.length === 0) {
+    if (!user || !user.password) {
       return null; // User not found
     }
 
-    // Retrieve the hashed password from the database
-    const { username, user_id, password } = result.rows[0];
-
     // Compare the provided password (hashed) with the stored hashed password
-    const passwordMatch = await bcrypt.compare(clientPassword, password);
+    const passwordMatch = await bcrypt.compare(clientPassword, user.password);
 
     if (passwordMatch) {
       // Passwords match, return the user's ID
       return {
-        id: user_id,
+        id: user.id,
         email: email,
-        name: username,
+        name: user.username,
       };
     } else {
       // Passwords do not match
@@ -44,21 +43,24 @@ async function authenticate(email: string, clientPassword: string) {
 async function googleAuthenticate(email: string, googleId: string) {
   try {
     // Search DB if googleId exists
-    const result = await pool.query(
-      'SELECT user_id FROM users WHERE google_id = $1',
-      [googleId]
-    );
+    const user = await prisma.user.findFirst({
+      where: { googleId },
+      select: { id: true },
+    });
 
-    if (result.rows.length === 0) {
+    if (!user) {
       // Create new account if no results found
       const userId = uuidv4();
-      await pool.query(
-        'INSERT INTO users (user_id, email, google_id) VALUES ($1, $2, $3)',
-        [userId, email, googleId]
-      );
+      await prisma.user.create({
+        data: {
+          id: userId,
+          email,
+          googleId,
+        },
+      });
       return userId;
     } else {
-      return result.rows[0].user_id;
+      return user.id;
     }
   } catch (error) {
     console.error(error);

@@ -9,8 +9,9 @@ type bookIdProp = {
 
 export default async function Page({ bookId }: bookIdProp) {
   const router = useRouter();
+
   async function deleteBook() {
-    const res = await fetch('/api/books/' + bookId, {
+    const res = await fetch(`/api/books/${bookId}`, {
       method: 'DELETE',
     });
 

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Make sure you have axios installed
 import { GoogleSignIn } from './SignInProvider';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -10,12 +10,11 @@ export default function LogInForm() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { data: session } = useSession();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await signIn('credentials', {
+      const res = await signIn('credentials', {
         redirect: false,
         email,
         password,

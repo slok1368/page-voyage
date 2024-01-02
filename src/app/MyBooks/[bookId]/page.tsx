@@ -2,22 +2,19 @@ import RemoveBookButton from '@/components/RemoveBookButton';
 import SppechSynthesisComponent from '@/components/SpeechSynthesisComponent';
 import { bookFullContentJson } from '@/types';
 
-export default async function Page({
-  params,
-}: {
-  params: { book_id: string };
-}) {
-  const book_id = params.book_id;
+export default async function Page({ params }: { params: { bookId: string } }) {
+  const bookId = params.bookId;
   let bookName = 'Error getting this book';
   let bookContent = '<p>This book does not exist</p>';
-  const res = await fetch(process.env.APP_URL + '/api/books/' + book_id, {
+  const res = await fetch(`${process.env.APP_URL}/api/books/${bookId}`, {
     method: 'GET',
+    cache: 'no-store',
   });
 
   if (res.ok) {
     const bookRes: bookFullContentJson = await res.json();
-    bookName = bookRes.content.book_name;
-    bookContent = bookRes.content.book_content;
+    bookName = bookRes.content.bookName;
+    bookContent = bookRes.content.bookContent;
   }
 
   return (
@@ -29,13 +26,10 @@ export default async function Page({
           {/* <button className='rounded-lg bg-blue-300 px-3 py-2 text-black'>
             Edit
           </button> */}
-          <RemoveBookButton bookId={book_id} />
+          <RemoveBookButton bookId={bookId} />
         </section>
       </div>
-      <SppechSynthesisComponent
-        book_name={bookName}
-        book_content={bookContent}
-      />
+      <SppechSynthesisComponent bookName={bookName} bookContent={bookContent} />
       <div
         className='mt-3 rounded-lg bg-gray-700 p-5'
         dangerouslySetInnerHTML={{ __html: bookContent }}

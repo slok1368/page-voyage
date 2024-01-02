@@ -1,4 +1,5 @@
 import pg from 'pg';
+import { PrismaClient } from '@prisma/client';
 
 export const pool = new pg.Pool({
   user: process.env.DB_USER,
@@ -13,3 +14,7 @@ export const pool = new pg.Pool({
         }
       : undefined,
 });
+
+const prisma = new PrismaClient();
+
+export default prisma;

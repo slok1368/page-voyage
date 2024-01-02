@@ -44,7 +44,7 @@ export default function Navigationbar() {
             <button
               className='m-3 rounded-full border-2 border-slate-300 px-4 py-2
                         hover:scale-105 hover:bg-slate-700'
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: '/' })}
             >
               Sign Out
             </button>
