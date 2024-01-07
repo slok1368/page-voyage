@@ -3,8 +3,9 @@ import prisma from '@/app/api/_db';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateBookRequestBody } from '@/types';
 import { bookCard } from '@/types';
-import { authOptions } from '../auth/[...nextauth]/route';
+import { authOptions } from '../auth/[...nextauth]/auth';
 import { getServerSession } from 'next-auth';
+import { getBooks } from './utils';
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -41,38 +42,6 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Error adding book:', error);
     return NextResponse.error();
-  }
-}
-
-export async function getBooks(userId: string): Promise<bookCard[]> {
-  try {
-    const books: bookCard[] = await prisma.book
-      .findMany({
-        select: {
-          id: true,
-          versions: {
-            select: {
-              bookName: true,
-            },
-            orderBy: {
-              dateModified: 'desc',
-            },
-          },
-        },
-        where: {
-          authorId: userId,
-        },
-      })
-      .then((result) => {
-        return result.map((book) => ({
-          bookId: book.id,
-          bookName: book.versions[0].bookName,
-        }));
-      });
-
-    return books;
-  } catch (error) {
-    throw error;
   }
 }
 

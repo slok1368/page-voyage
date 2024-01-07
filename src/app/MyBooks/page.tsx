@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { bookCard } from '@/types';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '../api/auth/[...nextauth]/auth';
 import { getServerSession } from 'next-auth';
-import { getBooks } from '@/app/api/books/route';
+import { getBooks } from '@/app/api/books/utils';
+
 export default async function MyBooks() {
   const session = await getServerSession(authOptions);
   let books: bookCard[] = session ? await getBooks(session.user.id) : [];

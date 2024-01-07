@@ -5,7 +5,7 @@ import NavigationBar from '@/components/NavigationBar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Provider from './context/client-provider';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { getServerSession } from 'next-auth/next';
 
 const inter = Inter({ subsets: ['latin'] });
