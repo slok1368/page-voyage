@@ -2,16 +2,20 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
+import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+import { ModeToggle } from './ui/mode-togle';
 
 export default function Navigationbar() {
   const router = useRouter();
   const { data: session } = useSession();
+  const varient = 'ghost';
 
   return (
     <header className='flex w-screen justify-center pt-3'>
       <div className='flex w-4/5 flex-row flex-wrap justify-between '>
         <section className='flex h-auto flex-row flex-wrap items-center'>
-          <Link className='nav-button' href='/'>
+          <Link className={buttonVariants({ variant: `${varient}` })} href='/'>
             Home
           </Link>
 
@@ -22,17 +26,20 @@ export default function Navigationbar() {
 
           {session ? (
             <div>
-              <button
+              <Button
+                variant={varient}
                 onClick={() => {
                   router.refresh();
                   router.replace('/MyBooks');
                 }}
-                className='nav-button'
               >
                 My Books
-              </button>
+              </Button>
 
-              <Link className='nav-button' href='/BookEditor'>
+              <Link
+                className={buttonVariants({ variant: `${varient}` })}
+                href='/BookEditor'
+              >
                 Create a Book
               </Link>
             </div>
@@ -40,10 +47,10 @@ export default function Navigationbar() {
         </section>
 
         <section className='flex h-auto flex-row flex-wrap items-center'>
+          <ModeToggle />
           {session ? (
             <button
-              className='m-3 rounded-full border-2 border-slate-300 px-4 py-2
-                        hover:scale-105 hover:bg-slate-700'
+              className={buttonVariants({ variant: `${varient}` })}
               onClick={() => signOut({ callbackUrl: '/' })}
             >
               Sign Out
@@ -53,15 +60,13 @@ export default function Navigationbar() {
           {!session ? (
             <div>
               <Link
-                className='m-3 rounded-full border-2 border-slate-300 px-4 py-2
-                        hover:scale-105 hover:bg-slate-700'
+                className={buttonVariants({ variant: `${varient}` })}
                 href='/LogIn'
               >
                 Log In
               </Link>
               <Link
-                className='m-3 rounded-full border-4 border-slate-200 bg-slate-200 px-4 py-2
-                        text-black hover:scale-105 hover:border-slate-300 hover:bg-slate-300'
+                className={buttonVariants({ variant: `${varient}` })}
                 href='/SignUp'
               >
                 Sign Up

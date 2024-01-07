@@ -1,13 +1,8 @@
 'use client';
-import { revalidatePath } from 'next/cache';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-type bookIdProp = {
-  bookId: string;
-};
-
-export default async function Page({ bookId }: bookIdProp) {
+export default async function Page({ bookId }: { bookId: string }) {
   const router = useRouter();
 
   async function deleteBook() {

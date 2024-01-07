@@ -1,10 +1,21 @@
 'use client';
 import React, { useState } from 'react';
-import axios from 'axios'; // Make sure you have axios installed
 import { GoogleSignIn } from './SignInProvider';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { FcGoogle } from 'react-icons/fc';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 export default function LogInForm() {
   const router = useRouter();
@@ -37,41 +48,51 @@ export default function LogInForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='flex max-w-md flex-col items-center justify-center rounded-2xl'
-    >
-      <div className='flex flex-col py-3'>
-        <label>Email: </label>
-        <input
-          className='rounded-md border border-slate-400 px-2'
-          type='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div className='flex flex-col py-3'>
-        <label>Password: </label>
-        <input
-          className='rounded-md border border-slate-400 px-2'
-          type='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button
-        className='mt-6 w-full rounded-lg bg-red-400 p-2 shadow-md'
-        type='submit'
-      >
-        Log In
-      </button>
-
-      <div className='flex w-full flex-row justify-between'>
-        <span className='mt-8 h-[1px] w-5/12 bg-slate-400'></span>
-        <p className='mb-4 mt-5 text-sm'>or</p>
-        <span className='mt-8 h-[1px] w-5/12 bg-slate-400'></span>
-      </div>
-      <GoogleSignIn text={'Sign in with Google'} />
-    </form>
+    <Card className='w-[500px]'>
+      <CardHeader>
+        <CardTitle className='text-2xl'>Log In</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <div className='grid w-full items-center gap-4'>
+            <div className='flex flex-col space-y-1.5'>
+              <Label htmlFor='email'>Email</Label>
+              <Input
+                id='email'
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder='Enter your email address.'
+              />
+            </div>
+            <div className='flex flex-col space-y-1.5'>
+              <Label htmlFor='name'>Password</Label>
+              <Input
+                id='name'
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder='Enter your password.'
+              />
+            </div>
+          </div>
+        </form>
+        <Button className='mt-8 w-full' onClick={handleSubmit}>
+          Log In
+        </Button>
+        <div className='flex w-full flex-row justify-between pt-2'>
+          <span className='mt-8 h-[1px] w-5/12 bg-slate-400'></span>
+          <p className='mb-4 mt-5 text-sm'>or</p>
+          <span className='mt-8 h-[1px] w-5/12 bg-slate-400'></span>
+        </div>
+      </CardContent>
+      <CardFooter className='flex'>
+        <Button
+          className='w-full px-10'
+          onClick={() => signIn('google', { callbackUrl: '/' })}
+        >
+          <div className='flex items-center justify-center gap-2 space-y-1.5'>
+            <FcGoogle size={18} />
+            Sign in with Google
+          </div>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }

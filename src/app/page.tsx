@@ -27,8 +27,8 @@ export default async function Home() {
           out for you!
         </p>
 
-        <p className='font-bold'>
-          Basic Funtionalities:
+        <div className='flex flex-row gap-5'>
+          <p className='font-medium'>Basic Funtionalities:</p>
           <ul className='font-normal'>
             <li>Create account/ Log in ✅</li>
             <li>Create and save stories ✅</li>
@@ -37,7 +37,7 @@ export default async function Home() {
             <li>Read-A-Loud ✅</li>
             <li>Edit stories</li>
           </ul>
-        </p>
+        </div>
 
         <p>
           ** Recommend using Microsoft Edge on Desktop for more neural voices**
