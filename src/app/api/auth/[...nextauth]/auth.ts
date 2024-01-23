@@ -1,12 +1,10 @@
 import type { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-
 import { v4 as uuidv4 } from 'uuid';
+import prisma from '../../_db';
 
-const prisma = new PrismaClient();
 async function authenticate(email: string, clientPassword: string) {
   try {
     // Retrieve user data from the database using the provided email

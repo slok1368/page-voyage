@@ -2,30 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/app/api/_db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/auth';
+import { getBook } from './utils';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { bookId: string } }
 ) {
   const bookId = params.bookId;
+  getBook(bookId);
   try {
-    const book = await prisma.bookVersion.findFirst({
-      where: {
-        bookId: bookId,
-      },
-      orderBy: {
-        dateModified: 'desc',
-      },
-      select: {
-        bookName: true,
-        bookContent: true,
-      },
-    });
-    if (book) {
-      return NextResponse.json({ success: true, content: book });
-    } else {
-      return NextResponse.error();
+    const book = await getBook(bookId);
+    if (!book) {
+      return NextResponse.json(
+        { error: `No book found with id: ${bookId}` },
+        { status: 404 }
+      );
     }
+    return NextResponse.json({ success: true, content: book });
   } catch (error) {
     console.log(
       'Internal server error when getting book with book_id: ' + bookId
@@ -44,6 +37,10 @@ export async function DELETE(
   const session = await getServerSession(authOptions);
   const bookId = params.bookId;
   const authorId = session?.user.id;
+
+  if (!authorId) {
+    return NextResponse.error();
+  }
   try {
     await prisma.book.delete({
       where: {

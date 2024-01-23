@@ -60,7 +60,7 @@ export default function LogInForm() {
               <Input
                 id='email'
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder='Enter your email address.'
+                placeholder='example@email.com'
               />
             </div>
             <div className='flex flex-col space-y-1.5'>
@@ -68,7 +68,7 @@ export default function LogInForm() {
               <Input
                 id='name'
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder='Enter your password.'
+                placeholder='password'
               />
             </div>
           </div>
@@ -76,10 +76,15 @@ export default function LogInForm() {
         <Button className='mt-8 w-full' onClick={handleSubmit}>
           Log In
         </Button>
-        <div className='flex w-full flex-row justify-between pt-2'>
-          <span className='mt-8 h-[1px] w-5/12 bg-slate-400'></span>
-          <p className='mb-4 mt-5 text-sm'>or</p>
-          <span className='mt-8 h-[1px] w-5/12 bg-slate-400'></span>
+        <div className='relative mt-6'>
+          <div className='absolute inset-0 flex items-center'>
+            <span className='w-full border-t' />
+          </div>
+          <div className='relative flex justify-center text-xs uppercase'>
+            <span className='bg-background px-2 text-muted-foreground'>
+              Or continue with
+            </span>
+          </div>
         </div>
       </CardContent>
       <CardFooter className='flex'>
@@ -89,7 +94,7 @@ export default function LogInForm() {
         >
           <div className='flex items-center justify-center gap-2 space-y-1.5'>
             <FcGoogle size={18} />
-            Sign in with Google
+            Log In with Google
           </div>
         </Button>
       </CardFooter>

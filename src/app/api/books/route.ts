@@ -36,8 +36,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log(`Added book: ${bookName} at ${new Date().toISOString()}`);
-
     return NextResponse.json({ success: true, content: bookId });
   } catch (error) {
     console.error('Error adding book:', error);

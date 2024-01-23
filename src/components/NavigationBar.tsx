@@ -9,13 +9,18 @@ import { ModeToggle } from './ui/mode-togle';
 export default function Navigationbar() {
   const router = useRouter();
   const { data: session } = useSession();
-  const varient = 'ghost';
+
+  const varient = 'link';
+  const size = 'lg';
 
   return (
     <header className='flex w-screen justify-center pt-3'>
       <div className='flex w-4/5 flex-row flex-wrap justify-between '>
         <section className='flex h-auto flex-row flex-wrap items-center'>
-          <Link className={buttonVariants({ variant: `${varient}` })} href='/'>
+          <Link
+            className={buttonVariants({ variant: `${varient}`, size: `lg` })}
+            href='/'
+          >
             Home
           </Link>
 
@@ -28,19 +33,33 @@ export default function Navigationbar() {
             <div>
               <Button
                 variant={varient}
+                size={size}
                 onClick={() => {
-                  router.refresh();
                   router.replace('/MyBooks');
+                  router.refresh();
                 }}
               >
                 My Books
               </Button>
 
               <Link
-                className={buttonVariants({ variant: `${varient}` })}
+                className={buttonVariants({
+                  variant: `${varient}`,
+                  size: `lg`,
+                })}
                 href='/BookEditor'
               >
                 Create a Book
+              </Link>
+
+              <Link
+                className={buttonVariants({
+                  variant: `${varient}`,
+                  size: `lg`,
+                })}
+                href='/playground'
+              >
+                Playground
               </Link>
             </div>
           ) : undefined}
@@ -50,7 +69,7 @@ export default function Navigationbar() {
           <ModeToggle />
           {session ? (
             <button
-              className={buttonVariants({ variant: `${varient}` })}
+              className={buttonVariants({ variant: `${varient}`, size: `lg` })}
               onClick={() => signOut({ callbackUrl: '/' })}
             >
               Sign Out
@@ -60,13 +79,19 @@ export default function Navigationbar() {
           {!session ? (
             <div>
               <Link
-                className={buttonVariants({ variant: `${varient}` })}
+                className={buttonVariants({
+                  variant: `${varient}`,
+                  size: `lg`,
+                })}
                 href='/LogIn'
               >
                 Log In
               </Link>
               <Link
-                className={buttonVariants({ variant: `${varient}` })}
+                className={buttonVariants({
+                  variant: `${varient}`,
+                  size: `lg`,
+                })}
                 href='/SignUp'
               >
                 Sign Up

@@ -1,40 +1,61 @@
 'use client';
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 import { CreateBookRequestBody } from '@/types';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-const toolbarModule = {
-  toolbar: [
-    [{ header: [2, 3, false] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [
-      { list: 'ordered' },
-      { list: 'bullet' },
-      { indent: '-1' },
-      { indent: '+1' },
-    ],
-    ['clean'],
-  ],
-};
+const maxNameLength = 100;
+
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: 'Book name must be at least 2 characters long',
+    })
+    .max(maxNameLength, {
+      message: `Book name must be less than ${maxNameLength} characters long`,
+    }),
+  content: z.string().min(10, {
+    message: 'Book content must be at least 10 characters long',
+  }),
+});
 
 export default function BookEditor() {
   const router = useRouter();
-  const [name, setName] = useState('');
-  const [content, setContent] = useState('');
 
-  async function saveOnClick() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      content: '',
+    },
+    mode: `onChange`,
+  });
+
+  async function saveOnClick(data: z.infer<typeof formSchema>) {
     const saveBookRequest: CreateBookRequestBody = {
-      bookName: name,
-      bookContent: content,
+      bookName: data.name,
+      bookContent: data.content,
     };
 
     const res = await fetch('/api/books', {
       method: 'POST',
       body: JSON.stringify(saveBookRequest),
+      cache: 'no-store',
     });
 
     if (res.ok) {
@@ -43,6 +64,7 @@ export default function BookEditor() {
       });
       const resJson = await res.json();
       router.push('/MyBooks/' + resJson.content);
+      router.refresh();
     } else {
       toast.error('Failed to create book', {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -50,35 +72,55 @@ export default function BookEditor() {
     }
   }
 
-  function handleNameOnChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setName(event.target.value);
-  }
-
   return (
-    <div className='mx-auto  flex w-11/12 flex-col items-center justify-center sm:w-8/12'>
-      <h1>Book Editor</h1>
-      <input
-        maxLength={100}
-        className='mb-5 w-full rounded-xl border px-4 py-5 text-3xl text-black'
-        value={name}
-        onChange={handleNameOnChange}
-        placeholder='Title...'
-      />
-      {ReactQuill && (
-        <ReactQuill
-          theme='snow'
-          value={content}
-          className='w-full'
-          onChange={setContent}
-          modules={toolbarModule}
-        />
-      )}
-      <button
-        onClick={saveOnClick}
-        className='my-5 w-1/5 rounded-md border border-orange-200 bg-orange-200'
-      >
-        Save
-      </button>
-    </div>
+    <main className='mx-auto w-11/12 sm:w-8/12' style={{ height: '80vh' }}>
+      <div className='flex flex-row items-baseline justify-between'>
+        <h2 className='mb-6 scroll-m-20 border-b-2 border-foreground pb-2 text-3xl font-semibold tracking-tight first:mt-0'>
+          Book Editor
+        </h2>
+      </div>
+      <div className='h-8/12'>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(saveOnClick)}
+            className='h-full space-y-6'
+          >
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      className='border-2'
+                      placeholder='Title'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='content'
+              render={({ field }) => (
+                <FormItem className='h-3/4'>
+                  <FormControl>
+                    <Textarea
+                      className='h-full border-2'
+                      placeholder='Tell us the story...'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type='submit'>Submit</Button>
+          </form>
+        </Form>
+      </div>
+    </main>
   );
 }

@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { CreateUserRequestBody } from '@/types';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '../_db';
 
 export async function POST(req: NextRequest) {
   try {

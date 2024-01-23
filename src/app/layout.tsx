@@ -34,7 +34,7 @@ export default async function RootLayout({
         >
           <Provider session={session}>
             <NavigationBar />
-            <div className='w-screen'>{children}</div>
+            <div className='w-screen  pt-8'>{children}</div>
             <ToastContainer />
           </Provider>
         </ThemeProvider>
